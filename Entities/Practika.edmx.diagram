@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="4f7bd3529e4b430c8af4df32b0fc3eee" Name="Diagram1">
+        <EntityTypeShape EntityType="Practice_EmploymentModel.Group" Width="1.5" PointX="3.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Practice_EmploymentModel.Manager" Width="1.5" PointX="3" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Practice_EmploymentModel.Practice" Width="1.5" PointX="3" PointY="7.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Practice_EmploymentModel.Rating" Width="1.5" PointX="5.25" PointY="6.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="Practice_EmploymentModel.Student" Width="1.5" PointX="6" PointY="2.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="Practice_EmploymentModel.Teacher" Width="1.5" PointX="3" PointY="10.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Practice_EmploymentModel.User" Width="1.5" PointX="0.75" PointY="5.375" IsExpanded="true" />
+        <AssociationConnector Association="Practice_EmploymentModel.FK__Students__id_Gro__40F9A68C" ManuallyRouted="false" />
+        <AssociationConnector Association="Practice_EmploymentModel.FK__Managers__id_Use__44CA3770" ManuallyRouted="false" />
+        <AssociationConnector Association="Practice_EmploymentModel.FK__Ratings__id_Dire__4D5F7D71" ManuallyRouted="false" />
+        <AssociationConnector Association="Practice_EmploymentModel.FK__Ratings__id_Prac__4B7734FF" ManuallyRouted="false" />
+        <AssociationConnector Association="Practice_EmploymentModel.FK__Ratings__id_Stud__4A8310C6" ManuallyRouted="false" />
+        <AssociationConnector Association="Practice_EmploymentModel.FK__Ratings__id_Teac__4C6B5938" ManuallyRouted="false" />
+        <AssociationConnector Association="Practice_EmploymentModel.FK__Students__id_Use__41EDCAC5" ManuallyRouted="false" />
+        <AssociationConnector Association="Practice_EmploymentModel.FK__Teachers__id_Use__47A6A41B" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

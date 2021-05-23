@@ -1,0 +1,657 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище Practice_EmploymentModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Groups">
+          <Key>
+            <PropertyRef Name="id_Group" />
+          </Key>
+          <Property Name="id_Group" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Group_Number" Type="varchar" MaxLength="35" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Managers">
+          <Key>
+            <PropertyRef Name="id_Managers" />
+          </Key>
+          <Property Name="id_Managers" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Surname" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Patronymic" Type="varchar" MaxLength="50" />
+          <Property Name="Organization" Type="nchar" MaxLength="300" Nullable="false" />
+          <Property Name="id_User" Type="int" />
+        </EntityType>
+        <EntityType Name="Practices">
+          <Key>
+            <PropertyRef Name="id_Practice" />
+          </Key>
+          <Property Name="id_Practice" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name_Of_The_Practice" Type="varchar" MaxLength="35" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Ratings">
+          <Key>
+            <PropertyRef Name="id_Rating" />
+          </Key>
+          <Property Name="id_Rating" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Teacher's_Assessment" Type="int" Nullable="false" />
+          <Property Name="Manager's Assessment" Type="int" Nullable="false" />
+          <Property Name="Final Assessment" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="id_Student" Type="int" />
+          <Property Name="id_Practice" Type="int" />
+          <Property Name="id_Teacher" Type="int" />
+          <Property Name="id_Director" Type="int" />
+        </EntityType>
+        <EntityType Name="Students">
+          <Key>
+            <PropertyRef Name="id_Student" />
+          </Key>
+          <Property Name="id_Student" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Surname" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Patronymic" Type="varchar" MaxLength="50" />
+          <Property Name="id_Group" Type="int" />
+          <Property Name="id_User" Type="int" />
+        </EntityType>
+        <EntityType Name="Teachers">
+          <Key>
+            <PropertyRef Name="id_Teacher" />
+          </Key>
+          <Property Name="id_Teacher" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Surname" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Patronymic" Type="varchar" MaxLength="50" />
+          <Property Name="id_User" Type="int" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="id_User" />
+          </Key>
+          <Property Name="id_User" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Login" Type="varchar" MaxLength="35" Nullable="false" />
+          <Property Name="Password" Type="varchar" MaxLength="35" Nullable="false" />
+          <Property Name="Role" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <!--Ошибки, обнаруженные при создании:
+предупреждение 6002: В таблице или представлении "Practice_Employment.sys.database_firewall_rules" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
+        <Association Name="FK__Managers__id_Use__44CA3770">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Managers" Type="Self.Managers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="id_User" />
+            </Principal>
+            <Dependent Role="Managers">
+              <PropertyRef Name="id_User" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Ratings__id_Dire__4D5F7D71">
+          <End Role="Managers" Type="Self.Managers" Multiplicity="0..1" />
+          <End Role="Ratings" Type="Self.Ratings" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Managers">
+              <PropertyRef Name="id_Managers" />
+            </Principal>
+            <Dependent Role="Ratings">
+              <PropertyRef Name="id_Director" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Ratings__id_Prac__4B7734FF">
+          <End Role="Practices" Type="Self.Practices" Multiplicity="0..1" />
+          <End Role="Ratings" Type="Self.Ratings" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Practices">
+              <PropertyRef Name="id_Practice" />
+            </Principal>
+            <Dependent Role="Ratings">
+              <PropertyRef Name="id_Practice" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Ratings__id_Stud__4A8310C6">
+          <End Role="Students" Type="Self.Students" Multiplicity="0..1" />
+          <End Role="Ratings" Type="Self.Ratings" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Students">
+              <PropertyRef Name="id_Student" />
+            </Principal>
+            <Dependent Role="Ratings">
+              <PropertyRef Name="id_Student" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Ratings__id_Teac__4C6B5938">
+          <End Role="Teachers" Type="Self.Teachers" Multiplicity="0..1" />
+          <End Role="Ratings" Type="Self.Ratings" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Teachers">
+              <PropertyRef Name="id_Teacher" />
+            </Principal>
+            <Dependent Role="Ratings">
+              <PropertyRef Name="id_Teacher" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Students__id_Gro__40F9A68C">
+          <End Role="Groups" Type="Self.Groups" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Students" Type="Self.Students" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Groups">
+              <PropertyRef Name="id_Group" />
+            </Principal>
+            <Dependent Role="Students">
+              <PropertyRef Name="id_Group" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Students__id_Use__41EDCAC5">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Students" Type="Self.Students" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="id_User" />
+            </Principal>
+            <Dependent Role="Students">
+              <PropertyRef Name="id_User" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Teachers__id_Use__47A6A41B">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Teachers" Type="Self.Teachers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="id_User" />
+            </Principal>
+            <Dependent Role="Teachers">
+              <PropertyRef Name="id_User" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
+        <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="version" Type="int" Mode="In" />
+          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_creatediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="version" Type="int" Mode="In" />
+          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_dropdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_helpdiagramdefinition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_helpdiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_renamediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <EntityContainer Name="Хранилище Practice_EmploymentModelContainer">
+          <EntitySet Name="Groups" EntityType="Self.Groups" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Managers" EntityType="Self.Managers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Practices" EntityType="Self.Practices" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Ratings" EntityType="Self.Ratings" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Students" EntityType="Self.Students" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Teachers" EntityType="Self.Teachers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Managers__id_Use__44CA3770" Association="Self.FK__Managers__id_Use__44CA3770">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Managers" EntitySet="Managers" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Ratings__id_Dire__4D5F7D71" Association="Self.FK__Ratings__id_Dire__4D5F7D71">
+            <End Role="Managers" EntitySet="Managers" />
+            <End Role="Ratings" EntitySet="Ratings" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Ratings__id_Prac__4B7734FF" Association="Self.FK__Ratings__id_Prac__4B7734FF">
+            <End Role="Practices" EntitySet="Practices" />
+            <End Role="Ratings" EntitySet="Ratings" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Ratings__id_Stud__4A8310C6" Association="Self.FK__Ratings__id_Stud__4A8310C6">
+            <End Role="Students" EntitySet="Students" />
+            <End Role="Ratings" EntitySet="Ratings" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Ratings__id_Teac__4C6B5938" Association="Self.FK__Ratings__id_Teac__4C6B5938">
+            <End Role="Teachers" EntitySet="Teachers" />
+            <End Role="Ratings" EntitySet="Ratings" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Students__id_Gro__40F9A68C" Association="Self.FK__Students__id_Gro__40F9A68C">
+            <End Role="Groups" EntitySet="Groups" />
+            <End Role="Students" EntitySet="Students" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Students__id_Use__41EDCAC5" Association="Self.FK__Students__id_Use__41EDCAC5">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Students" EntitySet="Students" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Teachers__id_Use__47A6A41B" Association="Self.FK__Teachers__id_Use__47A6A41B">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Teachers" EntitySet="Teachers" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Practice_EmploymentModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Group">
+          <Key>
+            <PropertyRef Name="id_Group" />
+          </Key>
+          <Property Name="id_Group" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Group_Number" Type="String" MaxLength="35" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Students" Relationship="Self.FK__Students__id_Gro__40F9A68C" FromRole="Groups" ToRole="Students" />
+        </EntityType>
+        <EntityType Name="Manager">
+          <Key>
+            <PropertyRef Name="id_Managers" />
+          </Key>
+          <Property Name="id_Managers" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Surname" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Patronymic" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Organization" Type="String" MaxLength="300" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="id_User" Type="Int32" />
+          <NavigationProperty Name="User" Relationship="Self.FK__Managers__id_Use__44CA3770" FromRole="Managers" ToRole="Users" />
+          <NavigationProperty Name="Ratings" Relationship="Self.FK__Ratings__id_Dire__4D5F7D71" FromRole="Managers" ToRole="Ratings" />
+        </EntityType>
+        <EntityType Name="Practice">
+          <Key>
+            <PropertyRef Name="id_Practice" />
+          </Key>
+          <Property Name="id_Practice" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name_Of_The_Practice" Type="String" MaxLength="35" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Ratings" Relationship="Self.FK__Ratings__id_Prac__4B7734FF" FromRole="Practices" ToRole="Ratings" />
+        </EntityType>
+        <EntityType Name="Rating">
+          <Key>
+            <PropertyRef Name="id_Rating" />
+          </Key>
+          <Property Name="id_Rating" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Teacher_s_Assessment" Type="Int32" Nullable="false" />
+          <Property Name="Manager_s_Assessment" Type="Int32" Nullable="false" />
+          <Property Name="Final_Assessment" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="id_Student" Type="Int32" />
+          <Property Name="id_Practice" Type="Int32" />
+          <Property Name="id_Teacher" Type="Int32" />
+          <Property Name="id_Director" Type="Int32" />
+          <NavigationProperty Name="Manager" Relationship="Self.FK__Ratings__id_Dire__4D5F7D71" FromRole="Ratings" ToRole="Managers" />
+          <NavigationProperty Name="Practice" Relationship="Self.FK__Ratings__id_Prac__4B7734FF" FromRole="Ratings" ToRole="Practices" />
+          <NavigationProperty Name="Student" Relationship="Self.FK__Ratings__id_Stud__4A8310C6" FromRole="Ratings" ToRole="Students" />
+          <NavigationProperty Name="Teacher" Relationship="Self.FK__Ratings__id_Teac__4C6B5938" FromRole="Ratings" ToRole="Teachers" />
+        </EntityType>
+        <EntityType Name="Student">
+          <Key>
+            <PropertyRef Name="id_Student" />
+          </Key>
+          <Property Name="id_Student" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Surname" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Patronymic" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="id_Group" Type="Int32" />
+          <Property Name="id_User" Type="Int32" />
+          <NavigationProperty Name="Group" Relationship="Self.FK__Students__id_Gro__40F9A68C" FromRole="Students" ToRole="Groups" />
+          <NavigationProperty Name="Ratings" Relationship="Self.FK__Ratings__id_Stud__4A8310C6" FromRole="Students" ToRole="Ratings" />
+          <NavigationProperty Name="User" Relationship="Self.FK__Students__id_Use__41EDCAC5" FromRole="Students" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="Teacher">
+          <Key>
+            <PropertyRef Name="id_Teacher" />
+          </Key>
+          <Property Name="id_Teacher" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Surname" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Patronymic" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="id_User" Type="Int32" />
+          <NavigationProperty Name="Ratings" Relationship="Self.FK__Ratings__id_Teac__4C6B5938" FromRole="Teachers" ToRole="Ratings" />
+          <NavigationProperty Name="User" Relationship="Self.FK__Teachers__id_Use__47A6A41B" FromRole="Teachers" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="id_User" />
+          </Key>
+          <Property Name="id_User" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Login" Type="String" MaxLength="35" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="35" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Role" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Managers" Relationship="Self.FK__Managers__id_Use__44CA3770" FromRole="Users" ToRole="Managers" />
+          <NavigationProperty Name="Students" Relationship="Self.FK__Students__id_Use__41EDCAC5" FromRole="Users" ToRole="Students" />
+          <NavigationProperty Name="Teachers" Relationship="Self.FK__Teachers__id_Use__47A6A41B" FromRole="Users" ToRole="Teachers" />
+        </EntityType>
+        <Association Name="FK__Students__id_Gro__40F9A68C">
+          <End Role="Groups" Type="Self.Group" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Students" Type="Self.Student" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Groups">
+              <PropertyRef Name="id_Group" />
+            </Principal>
+            <Dependent Role="Students">
+              <PropertyRef Name="id_Group" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Managers__id_Use__44CA3770">
+          <End Role="Users" Type="Self.User" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Managers" Type="Self.Manager" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="id_User" />
+            </Principal>
+            <Dependent Role="Managers">
+              <PropertyRef Name="id_User" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Ratings__id_Dire__4D5F7D71">
+          <End Role="Managers" Type="Self.Manager" Multiplicity="0..1" />
+          <End Role="Ratings" Type="Self.Rating" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Managers">
+              <PropertyRef Name="id_Managers" />
+            </Principal>
+            <Dependent Role="Ratings">
+              <PropertyRef Name="id_Director" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Ratings__id_Prac__4B7734FF">
+          <End Role="Practices" Type="Self.Practice" Multiplicity="0..1" />
+          <End Role="Ratings" Type="Self.Rating" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Practices">
+              <PropertyRef Name="id_Practice" />
+            </Principal>
+            <Dependent Role="Ratings">
+              <PropertyRef Name="id_Practice" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Ratings__id_Stud__4A8310C6">
+          <End Role="Students" Type="Self.Student" Multiplicity="0..1" />
+          <End Role="Ratings" Type="Self.Rating" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Students">
+              <PropertyRef Name="id_Student" />
+            </Principal>
+            <Dependent Role="Ratings">
+              <PropertyRef Name="id_Student" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Ratings__id_Teac__4C6B5938">
+          <End Role="Teachers" Type="Self.Teacher" Multiplicity="0..1" />
+          <End Role="Ratings" Type="Self.Rating" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Teachers">
+              <PropertyRef Name="id_Teacher" />
+            </Principal>
+            <Dependent Role="Ratings">
+              <PropertyRef Name="id_Teacher" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Students__id_Use__41EDCAC5">
+          <End Role="Users" Type="Self.User" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Students" Type="Self.Student" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="id_User" />
+            </Principal>
+            <Dependent Role="Students">
+              <PropertyRef Name="id_User" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Teachers__id_Use__47A6A41B">
+          <End Role="Users" Type="Self.User" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Teachers" Type="Self.Teacher" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="id_User" />
+            </Principal>
+            <Dependent Role="Teachers">
+              <PropertyRef Name="id_User" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Practice_EmploymentEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Groups" EntityType="Self.Group" />
+          <EntitySet Name="Managers" EntityType="Self.Manager" />
+          <EntitySet Name="Practices" EntityType="Self.Practice" />
+          <EntitySet Name="Ratings" EntityType="Self.Rating" />
+          <EntitySet Name="Students" EntityType="Self.Student" />
+          <EntitySet Name="Teachers" EntityType="Self.Teacher" />
+          <EntitySet Name="Users" EntityType="Self.User" />
+          <AssociationSet Name="FK__Students__id_Gro__40F9A68C" Association="Self.FK__Students__id_Gro__40F9A68C">
+            <End Role="Groups" EntitySet="Groups" />
+            <End Role="Students" EntitySet="Students" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Managers__id_Use__44CA3770" Association="Self.FK__Managers__id_Use__44CA3770">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Managers" EntitySet="Managers" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Ratings__id_Dire__4D5F7D71" Association="Self.FK__Ratings__id_Dire__4D5F7D71">
+            <End Role="Managers" EntitySet="Managers" />
+            <End Role="Ratings" EntitySet="Ratings" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Ratings__id_Prac__4B7734FF" Association="Self.FK__Ratings__id_Prac__4B7734FF">
+            <End Role="Practices" EntitySet="Practices" />
+            <End Role="Ratings" EntitySet="Ratings" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Ratings__id_Stud__4A8310C6" Association="Self.FK__Ratings__id_Stud__4A8310C6">
+            <End Role="Students" EntitySet="Students" />
+            <End Role="Ratings" EntitySet="Ratings" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Ratings__id_Teac__4C6B5938" Association="Self.FK__Ratings__id_Teac__4C6B5938">
+            <End Role="Teachers" EntitySet="Teachers" />
+            <End Role="Ratings" EntitySet="Ratings" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Students__id_Use__41EDCAC5" Association="Self.FK__Students__id_Use__41EDCAC5">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Students" EntitySet="Students" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Teachers__id_Use__47A6A41B" Association="Self.FK__Teachers__id_Use__47A6A41B">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Teachers" EntitySet="Teachers" />
+          </AssociationSet>
+          <FunctionImport Name="sp_alterdiagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="version" Mode="In" Type="Int32" />
+            <Parameter Name="definition" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="sp_creatediagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="version" Mode="In" Type="Int32" />
+            <Parameter Name="definition" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="sp_dropdiagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_helpdiagramdefinition" ReturnType="Collection(Practice_EmploymentModel.sp_helpdiagramdefinition_Result)">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_helpdiagrams" ReturnType="Collection(Practice_EmploymentModel.sp_helpdiagrams_Result)">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_renamediagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="new_diagramname" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_upgraddiagrams" />
+        </EntityContainer>
+        <ComplexType Name="sp_helpdiagramdefinition_Result">
+          <Property Type="Int32" Name="version" Nullable="true" />
+          <Property Type="Binary" Name="definition" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="sp_helpdiagrams_Result">
+          <Property Type="String" Name="Database" Nullable="true" MaxLength="128" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="128" />
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
+          <Property Type="Int32" Name="OwnerID" Nullable="false" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище Practice_EmploymentModelContainer" CdmEntityContainer="Practice_EmploymentEntities">
+          <EntitySetMapping Name="Groups">
+            <EntityTypeMapping TypeName="Practice_EmploymentModel.Group">
+              <MappingFragment StoreEntitySet="Groups">
+                <ScalarProperty Name="id_Group" ColumnName="id_Group" />
+                <ScalarProperty Name="Group_Number" ColumnName="Group_Number" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Managers">
+            <EntityTypeMapping TypeName="Practice_EmploymentModel.Manager">
+              <MappingFragment StoreEntitySet="Managers">
+                <ScalarProperty Name="id_Managers" ColumnName="id_Managers" />
+                <ScalarProperty Name="Surname" ColumnName="Surname" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Patronymic" ColumnName="Patronymic" />
+                <ScalarProperty Name="Organization" ColumnName="Organization" />
+                <ScalarProperty Name="id_User" ColumnName="id_User" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Practices">
+            <EntityTypeMapping TypeName="Practice_EmploymentModel.Practice">
+              <MappingFragment StoreEntitySet="Practices">
+                <ScalarProperty Name="id_Practice" ColumnName="id_Practice" />
+                <ScalarProperty Name="Name_Of_The_Practice" ColumnName="Name_Of_The_Practice" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Ratings">
+            <EntityTypeMapping TypeName="Practice_EmploymentModel.Rating">
+              <MappingFragment StoreEntitySet="Ratings">
+                <ScalarProperty Name="id_Rating" ColumnName="id_Rating" />
+                <ScalarProperty Name="Teacher_s_Assessment" ColumnName="Teacher's_Assessment" />
+                <ScalarProperty Name="Manager_s_Assessment" ColumnName="Manager's Assessment" />
+                <ScalarProperty Name="Final_Assessment" ColumnName="Final Assessment" />
+                <ScalarProperty Name="id_Student" ColumnName="id_Student" />
+                <ScalarProperty Name="id_Practice" ColumnName="id_Practice" />
+                <ScalarProperty Name="id_Teacher" ColumnName="id_Teacher" />
+                <ScalarProperty Name="id_Director" ColumnName="id_Director" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Students">
+            <EntityTypeMapping TypeName="Practice_EmploymentModel.Student">
+              <MappingFragment StoreEntitySet="Students">
+                <ScalarProperty Name="id_Student" ColumnName="id_Student" />
+                <ScalarProperty Name="Surname" ColumnName="Surname" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Patronymic" ColumnName="Patronymic" />
+                <ScalarProperty Name="id_Group" ColumnName="id_Group" />
+                <ScalarProperty Name="id_User" ColumnName="id_User" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Teachers">
+            <EntityTypeMapping TypeName="Practice_EmploymentModel.Teacher">
+              <MappingFragment StoreEntitySet="Teachers">
+                <ScalarProperty Name="id_Teacher" ColumnName="id_Teacher" />
+                <ScalarProperty Name="Surname" ColumnName="Surname" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Patronymic" ColumnName="Patronymic" />
+                <ScalarProperty Name="id_User" ColumnName="id_User" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="Practice_EmploymentModel.User">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="id_User" ColumnName="id_User" />
+                <ScalarProperty Name="Login" ColumnName="Login" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Role" ColumnName="Role" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_alterdiagram" FunctionName="Хранилище Practice_EmploymentModel.sp_alterdiagram" />
+          <FunctionImportMapping FunctionImportName="sp_creatediagram" FunctionName="Хранилище Practice_EmploymentModel.sp_creatediagram" />
+          <FunctionImportMapping FunctionImportName="sp_dropdiagram" FunctionName="Хранилище Practice_EmploymentModel.sp_dropdiagram" />
+          <FunctionImportMapping FunctionImportName="sp_helpdiagramdefinition" FunctionName="Хранилище Practice_EmploymentModel.sp_helpdiagramdefinition">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="Practice_EmploymentModel.sp_helpdiagramdefinition_Result">
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_helpdiagrams" FunctionName="Хранилище Practice_EmploymentModel.sp_helpdiagrams">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="Practice_EmploymentModel.sp_helpdiagrams_Result">
+                <ScalarProperty Name="Database" ColumnName="Database" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Owner" ColumnName="Owner" />
+                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="Хранилище Practice_EmploymentModel.sp_renamediagram" />
+          <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="Хранилище Practice_EmploymentModel.sp_upgraddiagrams" />
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
